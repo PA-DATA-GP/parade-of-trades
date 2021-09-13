@@ -3,6 +3,10 @@
     <title>New Game</title>
     <link rel="stylesheet" href="/css/base.css">
 	<style>
+		table {
+			border: none;
+			margin: auto;
+		}
 		table, th, td {
 			border-collapse: collapse;
 			padding: 0.5rem;
@@ -81,7 +85,7 @@
 			</tr>
 		</table>
 		<br>
-		<table style="border: none; margin: auto">
+		<table>
 			<tr>
 				<td>
 					<button onclick="next_step()" name="btn">Next Step</button>
@@ -125,7 +129,6 @@
 					<td id='wrk-{{ loop.index0 }}-min'>{{ frm.min_roll(size=5,form="update_players") }}</td>
 					<td id='wrk-{{ loop.index0 }}-max'>{{ frm.max_roll(size=5,form="update_players") }}</td>
 				{% endfor %}
-				<td colspan="2"></td>
 			</tr>
 		</table>
         <br>
