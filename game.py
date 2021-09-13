@@ -58,6 +58,7 @@ class Game:
 				}
 			}
 			if self.supply_roll > self.supply:
+				self.supply_roll = 0
 				self.supply = 0
 			else:
 				self.supply -= self.supply_roll
