@@ -80,7 +80,9 @@ def player():
     if not game:
         return make_response(redirect(url_for('index_page')))
     else:
-        return render_template('player.html', game=game)
+        worker = game.workers_dict[request.cookies['player_key']]
+        wrk_num = game.workers.index(worker)
+        return render_template('player.html', game=game, worker=worker, wrk_num=wrk_num)
 
 @app.route('/spectate_join', methods=['GET', 'POST'])
 def spectate_join():
