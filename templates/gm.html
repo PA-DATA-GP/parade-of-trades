@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<head>
+    <title>New Game</title>
+    <link rel="stylesheet" href="/css/base.css">
+	<style>
+		table, th, td {
+			border-collapse: collapse;
+			padding: 0.5rem;
+			border: 1px solid black;
+		}
+		table input {
+			width: 10rem;
+		}
+		table#data input {
+            width: 1rem;
+        }
+	</style>
+</head>
+<body>
+    <div>
+		<h4>Game Key: {{ game.game_key }}</h4>
+		<table cellspacing="10" id='data'>
+			<thead>
+				<td>Label</td>
+				<td colspan="2">Supply</td>
+				{% for wrk in game.workers %}
+					{% if wrk.user|length > 0 %}
+						<td colspan="2">{{ wrk.user }}</td>
+					{% else %}
+						<td colspan="2">Worker {{ loop.index0+1 }}</td>
+					{% endif %}
+				{% endfor %}
+				<td colspan="2">Manufactured</td>
+			</thead>
+			<tr>
+				<td>Buffer</td>
+				<td colspan="2" id='supply'>{{ game.supply }}</td>
+				{% for wrk in game.workers %}
+					<td colspan="2" id='wrk-{{ loop.index0 }}-buffer'>{{ wrk.buffer }}</td>
+				{% endfor %}
+				<td colspan="2" id="end-amount">{{ game.end_amount }}</td>
+			</tr>
+			<tr>
+				<td>Roll</td>
+				<td colspan="2" id='supply-roll'>{{ game.supply_roll }}</td>
+				{% for wrk in game.workers %}
+					<td colspan="2" id='wrk-{{ loop.index0 }}-roll'>{{ wrk.roll_num }}</td>
+				{% endfor %}
+				<td colspan="2"></td>
+			</tr>
+			<tr>
+				<td>Rolled</td>
+				<td colspan="2"></td>
+				{% for wrk in game.workers %}
+					{% if wrk.rolled %}
+						<td colspan="2" id='wrk-{{ loop.index0 }}-rolled'>✅</td>
+					{% else %}
+						<td colspan="2" id='wrk-{{ loop.index0 }}-rolled'>❌</td>
+					{% endif %}
+				{% endfor %}
+				<td colspan="2"></td>
+			</tr>
+			<tr>
+				<td>Multiplier</td>
+				<td colspan="2" id='supply-mult'>{{ game.supply_multiplier }}</td>
+				{% for wrk in game.workers %}
+					<td colspan="2" id='wrk-{{ loop.index0 }}-mult'>{{ wrk.multiplier }}</td>
+				{% endfor %}
+				<td colspan="2"></td>
+			</tr>
+			<tr>
+				<td>Roll Min/Max</td>
+				<td id='supply-min'>{{ game.supply_rng_min }}</td>
+				<td id='supply-max'>{{ game.supply_rng_max }}</td>
+				{% for wrk in game.workers %}
+					<td id='wrk-{{ loop.index0 }}-min'>{{ wrk.rng_min }}</td>
+					<td id='wrk-{{ loop.index0 }}-max'>{{ wrk.rng_max }}</td>
+				{% endfor %}
+				<td colspan="2"></td>
+			</tr>
+			<tr>
+				<td>Set Multiplier</td>
+				{{ supply_form.hidden_tag() }}
+				<td colspan="2" id='supply-mult-edit'>{{ supply_form.multiplier(size=5,form="update_players") }}</td>
+				{% for frm in forms %}
+					{{ frm.hidden_tag() }}
+					<td colspan="2" id='wrk-{{ loop.index0 }}-mult-edit'>{{ frm.multiplier(size=5,form="update_players") }}</td>
+				{% endfor %}
+				<td colspan="2"></td>
+			</tr>
+			<tr>
+				<td>Set Roll Min/Max</td>
+				<td id='supply-min-edit'>{{ supply_form.min_roll(size=5,form="update_players") }}</td>
+				<td id='supply-max-edit'>{{ supply_form.max_roll(size=5,form="update_players") }}</td>
+				{% for frm in forms %}
+					<td id='wrk-{{ loop.index0 }}-min'>{{ frm.min_roll(size=5,form="update_players") }}</td>
+					<td id='wrk-{{ loop.index0 }}-max'>{{ frm.max_roll(size=5,form="update_players") }}</td>
+				{% endfor %}
+				<td colspan="2"></td>
+			</tr>
+		</table>
+		<br>
+		<table style="border: none; margin: auto">
+			<tr>
+				<td>
+					<button onclick="next_step()" name="btn">Next Step</button>
+				</td>
+				<td>
+					<button onclick="roll_all()" name="btn">Roll Unrolled</button>
+				</td>
+				<td>
+					<form action="/api/gm/edit_workers" id="update_players" method="POST">
+						<input type="submit" name="btn" form="update_players" value="Update Players">
+					</form>
+				</td>
+				<td>
+					<button onclick="window.location.reload()" name="btn">Update (Reload Page)</button>
+				</td>
+				<td>
+					<button onclick="roll_all_force()" name="btn">Roll All (Forcibly)</button>
+				</td>
+			</tr>
+		</table>
+        <br>
+		<a href="/">Main Page</a>
+    </div>
+</body>
+<script src="/js/update.js"></script>
+<script>
+	gm_update();
+	function next_step() {
+		fetch('/api/gm/next_step', {
+		method: 'POST',
+		credentials: 'same-origin'
+		}).then(call_update());
+	}
+	function roll_all() {
+		fetch('/api/gm/roll_all', {
+		method: 'POST',
+		credentials: 'same-origin'
+		}).then(call_update());
+	}
+	function roll_all_force() {
+		fetch('/api/gm/roll_all_force', {
+		method: 'POST',
+		credentials: 'same-origin'
+		}).then(call_update());
+	}
+	const interval = setInterval(function() {
+		call_update();
+	}, 2500);
+</script>

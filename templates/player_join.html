@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+    <title>Join Game</title>
+    <link rel="stylesheet" href="/css/base.css">
+</head>
+<body>
+    <div>
+        {% for field, errors in form.errors.items() %}
+            <div class="alert alert-error">
+                {{ ', '.join(errors) }}
+            </div>
+        {% endfor %}
+        <form method="POST">
+            {{ form.csrf_token }}
+            <table>
+				<tr>
+                    <td>{{ form.username.label }}</td>
+                    <td>{{ form.username(size=20) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.game_key.label }}</td>
+                    <td>{{ form.game_key(size=20) }}</td>
+                </tr>
+            </table>
+            <input type="submit" value="Submit">
+        </form>
+        <br>
+        <a href="/">Main Page</a>
+    </div>
+</body>

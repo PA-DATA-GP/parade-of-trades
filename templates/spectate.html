@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<head>
+    <title>New Game</title>
+    <link rel="stylesheet" href="/css/base.css">
+	<style>
+		table, th, td {
+			border-collapse: collapse;
+			padding: 0.5rem;
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+    <div>
+        <table cellspacing="10">
+			<thead>
+				<td>Label</td>
+				<td colspan="2">Supply</td>
+				{% for wrk in game.workers %}
+					{% if wrk.user|length > 0 %}
+						<td colspan="2">{{ wrk.user }}</td>
+					{% else %}
+						<td colspan="2">Worker {{ loop.index0+1 }}</td>
+					{% endif %}
+				{% endfor %}
+				<td colspan="2">Manufactured</td>
+			</thead>
+			<tr>
+				<td>Buffer</td>
+				<td colspan="2" id='supply'>{{ game.supply }}</td>
+				{% for wrk in game.workers %}
+					<td colspan="2" id='wrk-{{ loop.index0 }}-buffer'>{{ wrk.buffer }}</td>
+				{% endfor %}
+				<td colspan="2" id="end-amount">{{ game.end_amount }}</td>
+			</tr>
+			<tr>
+				<td>Roll</td>
+				<td colspan="2" id='supply-roll'>{{ game.supply_roll }}</td>
+				{% for wrk in game.workers %}
+					<td colspan="2" id='wrk-{{ loop.index0 }}-roll'>{{ wrk.roll_num }}</td>
+				{% endfor %}
+				<td colspan="2"></td>
+			</tr>
+			<tr>
+				<td>Rolled</td>
+				<td colspan="2" id='supply-rolled'></td>
+				{% for wrk in game.workers %}
+					{% if wrk.rolled %}
+						<td colspan="2" id='wrk-{{ loop.index0 }}-rolled'>✅</td>
+					{% else %}
+						<td colspan="2" id='wrk-{{ loop.index0 }}-rolled'>❌</td>
+					{% endif %}
+				{% endfor %}
+				<td colspan="2"></td>
+			</tr>
+			<tr>
+				<td>Multiplier</td>
+				<td colspan="2" id='supply-mult'>{{ game.supply_multiplier }}</td>
+				{% for wrk in game.workers %}
+					<td colspan="2" id='wrk-{{ loop.index0 }}-mult'>{{ wrk.multiplier }}</td>
+				{% endfor %}
+				<td colspan="2"></td>
+			</tr>
+			<tr>
+				<td>Roll Min/Max</td>
+				<td id='supply-min'>{{ game.supply_rng_min }}</td>
+				<td id='supply-max'>{{ game.supply_rng_max }}</td>
+				{% for wrk in game.workers %}
+					<td id='wrk-{{ loop.index0 }}-min'>{{ wrk.rng_min }}</td>
+					<td id='wrk-{{ loop.index0 }}-max'>{{ wrk.rng_max }}</td>
+				{% endfor %}
+				<td colspan="2"></td>
+			</tr>
+		</table>
+        <br>
+        <a href="/">Main Page</a>
+    </div>
+</body>
+<script src="/js/update.js"></script>
+<script>
+	const interval = setInterval(function() {
+		call_update();
+	}, 5000);
+</script>
