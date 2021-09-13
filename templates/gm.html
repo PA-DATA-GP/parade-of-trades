@@ -79,26 +79,6 @@
 				{% endfor %}
 				<td colspan="2"></td>
 			</tr>
-			<tr>
-				<td>Set Multiplier</td>
-				{{ supply_form.hidden_tag() }}
-				<td colspan="2" id='supply-mult-edit'>{{ supply_form.multiplier(size=5,form="update_players") }}</td>
-				{% for frm in forms %}
-					{{ frm.hidden_tag() }}
-					<td colspan="2" id='wrk-{{ loop.index0 }}-mult-edit'>{{ frm.multiplier(size=5,form="update_players") }}</td>
-				{% endfor %}
-				<td colspan="2"></td>
-			</tr>
-			<tr>
-				<td>Set Roll Min/Max</td>
-				<td id='supply-min-edit'>{{ supply_form.min_roll(size=5,form="update_players") }}</td>
-				<td id='supply-max-edit'>{{ supply_form.max_roll(size=5,form="update_players") }}</td>
-				{% for frm in forms %}
-					<td id='wrk-{{ loop.index0 }}-min'>{{ frm.min_roll(size=5,form="update_players") }}</td>
-					<td id='wrk-{{ loop.index0 }}-max'>{{ frm.max_roll(size=5,form="update_players") }}</td>
-				{% endfor %}
-				<td colspan="2"></td>
-			</tr>
 		</table>
 		<br>
 		<table style="border: none; margin: auto">
@@ -123,6 +103,29 @@
 				<td>
 					<button onclick="get_data()" name="btn">Get Game Data</button>
 				</td>
+			</tr>
+		</table>
+		<br>
+		<table>
+			<tr>
+				<td>Set Multiplier</td>
+				{{ supply_form.hidden_tag() }}
+				<td colspan="2" id='supply-mult-edit'>{{ supply_form.multiplier(size=5,form="update_players") }}</td>
+				{% for frm in forms %}
+					{{ frm.hidden_tag() }}
+					<td colspan="2" id='wrk-{{ loop.index0 }}-mult-edit'>{{ frm.multiplier(size=5,form="update_players") }}</td>
+				{% endfor %}
+				<td colspan="2"></td>
+			</tr>
+			<tr>
+				<td>Set Roll Min/Max</td>
+				<td id='supply-min-edit'>{{ supply_form.min_roll(size=5,form="update_players") }}</td>
+				<td id='supply-max-edit'>{{ supply_form.max_roll(size=5,form="update_players") }}</td>
+				{% for frm in forms %}
+					<td id='wrk-{{ loop.index0 }}-min'>{{ frm.min_roll(size=5,form="update_players") }}</td>
+					<td id='wrk-{{ loop.index0 }}-max'>{{ frm.max_roll(size=5,form="update_players") }}</td>
+				{% endfor %}
+				<td colspan="2"></td>
 			</tr>
 		</table>
         <br>

@@ -174,9 +174,9 @@ def roll_all_force(): # get probably not req.
         return resp
     
     if request.method == 'POST':
-        game.supply_roll = game.supply_multiplier*secure_rng.randrange(game.supply_rng_min, game.supply_rng_max+1)
+        game.supply_roll = game.supply_multiplier*secure_rng.choice([game.supply_rng_min, game.supply_rng_max])
         for wrk in game.workers:
-            wrk.roll_num = wrk.multiplier*secure_rng.randrange(wrk.rng_min, wrk.rng_max+1)
+            wrk.roll_num = wrk.multiplier*secure_rng.choice([wrk.rng_min, wrk.rng_max])
             wrk.rolled = True
         return game_status(request.cookies['game_key'])
     return redirect(url_for('game_master', game_key=request.cookies['game_key']))
