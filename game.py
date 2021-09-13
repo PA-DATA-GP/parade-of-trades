@@ -19,7 +19,7 @@ class Game:
 		self.taken_worker = [False for _ in self.workers]
 		self.step_num = 0
 		self.supply_roll = secure_rng.randrange(self.supply_rng_min, self.supply_rng_max+1)
-		self.log = []
+		self.log = dict()
 
 	def __bool__(self):
 		return True
@@ -40,22 +40,23 @@ class Game:
 		ret['supply_roll'] = self.supply_roll
 		ret['supply_multiplier'] = self.supply_multiplier
 		ret['end_amount'] = self.end_amount
+		ret['step_num'] = self.step_num
 		ret['workers'] = [wrk.get_status() for wrk in self.workers]
 		return ret
 
 	def step(self):
 		if all([wrk.rolled for wrk in self.workers]):
-			self.log.append({
+			self.log[self.step_num] = {
 				'board': {
 					'supply': self.supply,
-					'workers': [wrk.buffer for wrk in self.workers],
+					'buffers': [wrk.buffer for wrk in self.workers],
 					'end_amount': self.end_amount
 				},
 				'rolls': {
 					'supply': self.supply_roll,
-					'workers': [wrk.roll_num for wrk in self.workers]
+					'worker_rolls': [wrk.roll_num for wrk in self.workers]
 				}
-			})
+			}
 			if self.supply_roll > self.supply:
 				self.supply = 0
 			else:
@@ -68,6 +69,7 @@ class Game:
 				processed = wrk.process()
 			self.end_amount += processed
 			
+			self.step_num += 1
 			self.supply_roll = self.supply_multiplier*secure_rng.randrange(self.supply_rng_min, self.supply_rng_max+1)
 			return (True, '')
 		else:

@@ -201,6 +201,27 @@ def next_step(): # get probably not req.
         return game_status(request.cookies['game_key'])
     return redirect(url_for('game_master', game_key=request.cookies['game_key']))
 
+@app.route('/api/gm/get_data', methods=['GET', 'POST'])
+def get_data(): # get probably not req.
+    game = get_game(request.cookies['game_key'])
+    if not game:
+        resp = make_response(redirect(url_for('index_page')))
+        # resp.delete_cookie('game_key')
+        # resp.delete_cookie('gm_key')
+        # resp.delete_cookie('player_key')
+        return resp
+    
+    if request.cookies['gm_key'] != game.gm_key:
+        resp = make_response(redirect(url_for('index_page')))
+        # resp.delete_cookie('game_key')
+        # resp.delete_cookie('gm_key')
+        # resp.delete_cookie('player_key')
+        return resp
+    
+    if request.method == 'POST':
+        return game.log
+    return redirect(url_for('game_master', game_key=request.cookies['game_key']))
+
 @app.route('/api/player/roll_self', methods=['GET', 'POST'])
 def roll_self():
     game = get_game(request.cookies['game_key'])

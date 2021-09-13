@@ -34,6 +34,8 @@ function update(jsonData) {
 	elem.innerHTML = jsonData.supply_max;
 	elem = document.getElementById('supply-mult')
 	elem.innerHTML = jsonData.supply_multiplier;
+	elem = document.getElementById('round-num')
+	elem.innerHTML = "Round Number: " + (jsonData.step_num+1);
 }
 
 function call_update() {

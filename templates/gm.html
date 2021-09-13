@@ -19,6 +19,7 @@
 <body>
     <div>
 		<h4>Game Key: {{ game.game_key }}</h4>
+		<h4 id="round-num">Round Number: {{ game.step_num+1 }}</h4>
 		<table cellspacing="10" id='data'>
 			<thead>
 				<td>Label</td>
@@ -119,6 +120,9 @@
 				<td>
 					<button onclick="roll_all_force()" name="btn">Roll All (Forcibly)</button>
 				</td>
+				<td>
+					<button onclick="get_data()" name="btn">Get Game Data</button>
+				</td>
 			</tr>
 		</table>
         <br>
@@ -145,6 +149,21 @@
 		method: 'POST',
 		credentials: 'same-origin'
 		}).then(call_update());
+	}
+	function get_data() {
+		fetch('/api/gm/get_data', {
+		method: 'POST',
+		credentials: 'same-origin'
+		}).then(response => response.blob())
+		.then(blob => {
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = "gamedata.json";
+            document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+            a.click();    
+            a.remove();  //afterwards we remove the element again         
+        });
 	}
 	const interval = setInterval(function() {
 		call_update();
