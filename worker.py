@@ -28,7 +28,7 @@ class Worker:
 	
 	def roll(self):
 		if not self.rolled:
-			self.roll_num = self.multiplier*secure_rng.randrange(self.rng_min, self.rng_max+1)
+			self.roll_num = self.multiplier*secure_rng.choice([self.rng_min, self.rng_max])
 			self.rolled = True
 			return (True, self.roll_num)
 		else:

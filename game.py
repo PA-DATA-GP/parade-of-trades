@@ -18,7 +18,7 @@ class Game:
 		self.workers_dict = {wrk.key: wrk for wrk in self.workers}
 		self.taken_worker = [False for _ in self.workers]
 		self.step_num = 0
-		self.supply_roll = secure_rng.randrange(self.supply_rng_min, self.supply_rng_max+1)
+		self.supply_roll = secure_rng.choice([self.supply_rng_min, self.supply_rng_max])
 		self.log = dict()
 
 	def __bool__(self):
@@ -71,7 +71,7 @@ class Game:
 			self.end_amount += processed
 			
 			self.step_num += 1
-			self.supply_roll = self.supply_multiplier*secure_rng.randrange(self.supply_rng_min, self.supply_rng_max+1)
+			self.supply_roll = self.supply_multiplier*secure_rng.choice([self.supply_rng_min, self.supply_rng_max])
 			return (True, '')
 		else:
 			return (False, "Not all Rolled")
