@@ -246,7 +246,7 @@ def roll_self():
         return game_status(request.cookies['game_key'])
     return redirect(make_response(redirect(url_for('index_page'))))
 
-@app.route('/api/player/next_step')
+@app.route('/api/player/next_step', methods=['GET', 'POST'])
 def player_step():
     game = get_game(request.cookies['game_key'])
     if not game:
