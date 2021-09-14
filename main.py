@@ -243,6 +243,8 @@ def roll_self():
     
     if request.method == 'POST':
         game.workers_dict[request.cookies['player_key']].roll()
+        if all([wrk.rolled for wrk in game.workers]):
+            game.step()
         return game_status(request.cookies['game_key'])
     return redirect(make_response(redirect(url_for('index_page'))))
 
