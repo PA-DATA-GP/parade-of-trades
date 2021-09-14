@@ -39,7 +39,7 @@ function update(jsonData) {
 	if (document.getElementById('round-button')) {
 		elem = document.getElementById('round-button');
 		if (jsonData.all_rolled) {
-			elem.style.display = 'hidden';
+			elem.style.display = 'none';
 		}
 		else {
 			elem.style.display = '';
