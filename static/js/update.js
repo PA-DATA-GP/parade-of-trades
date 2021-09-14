@@ -35,7 +35,7 @@ function update(jsonData) {
 	elem = document.getElementById('supply-mult')
 	elem.innerHTML = jsonData.supply_multiplier;
 	elem = document.getElementById('round-num')
-	elem.innerHTML = "Round Number: " + (jsonData.step_num+1) + "  Max WIP: " + (jsonData.max_wip);
+	elem.innerHTML = "Round Number: " + String(jsonData.step_num+1) + "   Max WIP: " + String(jsonData.max_wip);
 	if (document.getElementById('round-button')) {
 		elem = document.getElementById('round-button');
 		if (!jsonData.all_rolled) {
