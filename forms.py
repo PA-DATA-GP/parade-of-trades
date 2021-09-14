@@ -14,10 +14,10 @@ class NewGame(FlaskForm):
 
 class JoinGame(FlaskForm):
     username	= StringField('Username', [validators.InputRequired(), validators.Length(min=4, max=50)])
-    game_key	= PasswordField('Game Password', [validators.InputRequired(), validators.Length(min=10, max=10)])
+    game_key	= PasswordField('Game Password', [validators.InputRequired(), validators.Length(min=4, max=4)])
 
 class SpectateGame(FlaskForm):
-    game_key	= PasswordField('Game Password', [validators.InputRequired(), validators.Length(min=10, max=10)])
+    game_key	= PasswordField('Game Password', [validators.InputRequired(), validators.Length(min=4, max=4)])
 
 class EditWorker(FlaskForm):
 	min_roll	= IntegerField('Minimum Roll', [validators.InputRequired(), validators.NumberRange(min=1)])
