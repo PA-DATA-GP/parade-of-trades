@@ -66,3 +66,6 @@ a {
 /* table > thead > tr:first-child > td {
     width: 5rem;
 } */
+h4 {
+    white-space: pre;
+}
