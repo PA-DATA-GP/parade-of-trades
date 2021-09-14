@@ -6,7 +6,7 @@ from custom_utils import random_id, secure_rng
 
 class Game:
 	def __init__(self, start_amount, num_workers, rng_min, rng_max):
-		self.game_key = random_id(10)
+		self.game_key = random_id(4)
 		self.gm_key = random_id(64)
 		self.supply = start_amount
 		self.supply_rng_min = rng_min
@@ -49,7 +49,7 @@ class Game:
 			self.log[self.step_num] = {
 				'board': {
 					'supply': self.supply,
-					'buffers': [wrk.buffer for wrk in self.workers],
+					'queues': [wrk.buffer for wrk in self.workers],
 					'end_amount': self.end_amount
 				},
 				'rolls': {
