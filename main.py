@@ -243,10 +243,32 @@ def roll_self():
     
     if request.method == 'POST':
         game.workers_dict[request.cookies['player_key']].roll()
+        return game_status(request.cookies['game_key'])
+    return redirect(make_response(redirect(url_for('index_page'))))
+
+@app.route('/api/player/next_step')
+def player_step():
+    game = get_game(request.cookies['game_key'])
+    if not game:
+        resp = make_response(redirect(url_for('index_page')))
+        # resp.delete_cookie('game_key')
+        # resp.delete_cookie('gm_key')
+        # resp.delete_cookie('player_key')
+        return resp
+    
+    if request.cookies['player_key'] not in game.workers_dict:
+        resp = make_response(redirect(url_for('index_page')))
+        # resp.delete_cookie('game_key')
+        # resp.delete_cookie('gm_key')
+        # resp.delete_cookie('player_key')
+        return resp
+    
+    if request.method == 'POST':
         if all([wrk.rolled for wrk in game.workers]):
             game.step()
         return game_status(request.cookies['game_key'])
     return redirect(make_response(redirect(url_for('index_page'))))
+
 
 @app.route('/api/game_status/<game_key>')
 def game_status(game_key):

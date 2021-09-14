@@ -88,6 +88,9 @@
 			<td>
 				<button onclick="roll_self()" name="btn">Roll</button>
 			</td>
+			<td>
+				<button onclick="next_step()" name="btn" id="round-button">Next Round</button>
+			</td>
 		</table>
         <br>
         <a href="/">Main Page</a>
@@ -97,6 +100,12 @@
 <script>
 	function roll_self() {
 		fetch('/api/player/roll_self', {
+		method: 'POST',
+		credentials: 'same-origin'
+		}).then(call_update());
+	}
+	function next_step() {
+		fetch('/api/player/next_step', {
 		method: 'POST',
 		credentials: 'same-origin'
 		}).then(call_update());

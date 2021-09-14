@@ -36,6 +36,15 @@ function update(jsonData) {
 	elem.innerHTML = jsonData.supply_multiplier;
 	elem = document.getElementById('round-num')
 	elem.innerHTML = "Round Number: " + (jsonData.step_num+1);
+	if (document.getElementById('round-button')) {
+		elem = document.getElementById('round-button');
+		if (jsonData.all_rolled) {
+			elem.style.display = 'hidden';
+		}
+		else {
+			elem.style.display = '';
+		}
+	}
 }
 
 function call_update() {

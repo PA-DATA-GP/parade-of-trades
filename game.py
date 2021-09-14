@@ -42,6 +42,7 @@ class Game:
 		ret['end_amount'] = self.end_amount
 		ret['step_num'] = self.step_num
 		ret['workers'] = [wrk.get_status() for wrk in self.workers]
+		ret['all_rolled'] = all([wrk.rolled for wrk in self.workers])
 		return ret
 
 	def step(self):
