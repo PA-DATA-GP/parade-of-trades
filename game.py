@@ -20,6 +20,7 @@ class Game:
 		self.step_num = 0
 		self.supply_roll = secure_rng.choice([self.supply_rng_min, self.supply_rng_max])
 		self.log = dict()
+		self.max_wip = 0
 
 	def __bool__(self):
 		return True
@@ -43,6 +44,7 @@ class Game:
 		ret['step_num'] = self.step_num
 		ret['workers'] = [wrk.get_status() for wrk in self.workers]
 		ret['all_rolled'] = all([wrk.rolled for wrk in self.workers])
+		ret['max_wip'] = self.max_wip
 		return ret
 
 	def step(self):
@@ -71,6 +73,9 @@ class Game:
 				processed = wrk.process()
 			self.end_amount += processed
 			
+			if max([wrk.buffer for wrk in self.workers]) > self.max_wip:
+				self.max_wip = max([wrk.buffer for wrk in self.workers])
+
 			self.step_num += 1
 			self.supply_roll = self.supply_multiplier*secure_rng.choice([self.supply_rng_min, self.supply_rng_max])
 			return (True, '')
