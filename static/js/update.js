@@ -38,7 +38,7 @@ function update(jsonData) {
 	elem.innerHTML = "Round Number: " + (jsonData.step_num+1);
 	if (document.getElementById('round-button')) {
 		elem = document.getElementById('round-button');
-		if (jsonData.all_rolled) {
+		if (!jsonData.all_rolled) {
 			elem.style.display = 'none';
 		}
 		else {
