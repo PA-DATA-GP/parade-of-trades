@@ -27,7 +27,7 @@
 				<td colspan="2">Manufactured</td>
 			</thead>
 			<tr>
-				<td>Production</td>
+				<td>Work In Progress</td>
 				<td colspan="2" id='supply'>{{ game.supply }}</td>
 				{% for wrk in game.workers %}
 					<td colspan="2" id='wrk-{{ loop.index0 }}-buffer'>{{ wrk.buffer }}</td>
@@ -35,7 +35,7 @@
 				<td colspan="2" id="end-amount">{{ game.end_amount }}</td>
 			</tr>
 			<tr>
-				<td>Roll</td>
+				<td>Production Quantity</td>
 				<td colspan="2" id='supply-roll'>{{ game.supply_roll }}</td>
 				{% for wrk in game.workers %}
 					<td colspan="2" id='wrk-{{ loop.index0 }}-roll'>{{ wrk.roll_num }}</td>
