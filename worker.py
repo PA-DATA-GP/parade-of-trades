@@ -13,6 +13,7 @@ class Worker:
 		self.roll_num = 1
 		self.multiplier = 1
 		self.taken = False
+		self.production = 1
 	
 	def get_status(self):
 		ret = dict()
@@ -24,6 +25,7 @@ class Worker:
 		ret['taken'] = self.taken
 		ret['user'] = self.user
 		ret['multiplier'] = self.multiplier
+		ret['production'] = self.production
 		return ret
 	
 	def roll(self):

@@ -46,7 +46,15 @@
 				<td colspan="2" id="end-amount">{{ game.end_amount }}</td>
 			</tr>
 			<tr>
-				<td>Production Quantity</td>
+				<td>Production Output</td>
+				<td colspan="2" id='supply-prod'>{{ game.supply_production }}</td>
+				{% for wrk in game.workers %}
+					<td colspan="2" id='wrk-{{ loop.index0 }}-prod'>-</td>
+				{% endfor %}
+				<td colspan="2"></td>
+			</tr>
+			<tr>
+				<td>Production Rate</td>
 				<td colspan="2" id='supply-roll'>{{ game.supply_roll }}</td>
 				{% for wrk in game.workers %}
 					<td colspan="2" id='wrk-{{ loop.index0 }}-roll'>{{ wrk.roll_num }}</td>
@@ -54,7 +62,7 @@
 				<td colspan="2"></td>
 			</tr>
 			<tr>
-				<td>Rolled</td>
+				<td>🎲 Rolled</td>
 				<td colspan="2"></td>
 				{% for wrk in game.workers %}
 					{% if wrk.rolled %}
@@ -173,4 +181,5 @@
 	const interval = setInterval(function() {
 		call_update();
 	}, 2500);
+	call_update();
 </script>

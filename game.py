@@ -21,6 +21,7 @@ class Game:
 		self.supply_roll = secure_rng.choice([self.supply_rng_min, self.supply_rng_max])
 		self.log = dict()
 		self.max_wip = 0
+		self.supply_production = min([self.supply, self.supply_roll])
 
 	def __bool__(self):
 		return True
@@ -42,6 +43,17 @@ class Game:
 		ret['supply_multiplier'] = self.supply_multiplier
 		ret['end_amount'] = self.end_amount
 		ret['step_num'] = self.step_num
+		self.supply_production = min([self.supply, self.supply_roll])
+		ret['supply_production'] = self.supply_production
+		if self.workers[0].rolled:
+			self.workers[0].production = min([self.workers[0].roll_num, self.workers[0].buffer + self.supply_production])
+			for ind, wkr in enumerate(self.workers[1:]):
+				ind = ind + 1 # clearest way I can put this, since slice re-indexes
+				if wkr.rolled:
+					wkr.production = min([wkr.roll_num, wkr.buffer + self.workers[ind-1].production])
+					print(ind, wkr.roll_num, wkr.buffer + self.workers[ind-1].production, wkr.production)
+				else:
+					break
 		ret['workers'] = [wrk.get_status() for wrk in self.workers]
 		ret['all_rolled'] = all([wrk.rolled for wrk in self.workers])
 		ret['max_wip'] = self.max_wip
