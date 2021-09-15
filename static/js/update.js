@@ -6,8 +6,8 @@ function update(jsonData) {
 	}
 	var prev_roll = true;
 	for (const [index, element] of jsonData.workers.entries()) {
-		var elem = document.getElementById('wrk-' + index + '-buffer')
-		elem.innerHTML = element.buffer;
+		var elem = document.getElementById('wrk-' + index + '-wip-queue')
+		elem.innerHTML = element.wip_queue;
 		elem = document.getElementById('wrk-' + index + '-roll')
 		elem.innerHTML = element.roll_num;
 		elem = document.getElementById('wrk-' + index + '-rolled')

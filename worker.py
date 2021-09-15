@@ -6,7 +6,7 @@ class Worker:
 	def __init__(self, rng_min, rng_max):
 		self.key = random_id(64)
 		self.user = ''
-		self.buffer = 0
+		self.wip_queue = 0
 		self.rng_min = rng_min
 		self.rng_max = rng_max
 		self.rolled = False
@@ -21,7 +21,7 @@ class Worker:
 		ret['roll_max'] = self.rng_max
 		ret['rolled'] = self.rolled
 		ret['roll_num'] = self.roll_num
-		ret['buffer'] = self.buffer
+		ret['wip_queue'] = self.wip_queue
 		ret['taken'] = self.taken
 		ret['user'] = self.user
 		ret['multiplier'] = self.multiplier
@@ -41,10 +41,10 @@ class Worker:
 	
 	def process(self):
 		self.rolled = False
-		if self.roll_num > self.buffer:
-			buf_val = self.buffer
-			self.buffer = 0
+		if self.roll_num > self.wip_queue:
+			buf_val = self.wip_queue
+			self.wip_queue = 0
 			return buf_val
 		else:
-			self.buffer -= self.roll_num
+			self.wip_queue -= self.roll_num
 			return self.roll_num 
