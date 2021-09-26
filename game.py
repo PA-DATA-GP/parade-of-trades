@@ -46,12 +46,12 @@ class Game:
 		self.supply_production = min([self.supply, self.supply_roll])
 		ret['supply_production'] = self.supply_production
 		if self.workers[0].rolled:
-			self.workers[0].production = min([self.workers[0].roll_num, self.workers[0].buffer + self.supply_production])
+			self.workers[0].production = min([self.workers[0].roll_num, self.workers[0].wip_queue + self.supply_production])
 			for ind, wkr in enumerate(self.workers[1:]):
 				ind = ind + 1 # clearest way I can put this, since slice re-indexes
 				if wkr.rolled:
-					wkr.production = min([wkr.roll_num, wkr.buffer + self.workers[ind-1].production])
-					print(ind, wkr.roll_num, wkr.buffer + self.workers[ind-1].production, wkr.production)
+					wkr.production = min([wkr.roll_num, wkr.wip_queue + self.workers[ind-1].production])
+					print(ind, wkr.roll_num, wkr.wip_queue + self.workers[ind-1].production, wkr.production)
 				else:
 					break
 		ret['workers'] = [wrk.get_status() for wrk in self.workers]
@@ -64,7 +64,7 @@ class Game:
 			self.log[self.step_num] = {
 				'board': {
 					'supply': self.supply,
-					'queues': [wrk.buffer for wrk in self.workers],
+					'queues': [wrk.wip_queue for wrk in self.workers],
 					'end_amount': self.end_amount
 				},
 				'rolls': {
@@ -77,16 +77,16 @@ class Game:
 				self.supply = 0
 			else:
 				self.supply -= self.supply_roll
-			self.workers[0].buffer += self.supply_roll
+			self.workers[0].wip_queue += self.supply_roll
 
 			processed = self.workers[0].process()
 			for wrk in self.workers[1:]:
-				wrk.buffer += processed
+				wrk.wip_queue += processed
 				processed = wrk.process()
 			self.end_amount += processed
 			
-			if max([wrk.buffer for wrk in self.workers]) > self.max_wip:
-				self.max_wip = max([wrk.buffer for wrk in self.workers])
+			if max([wrk.wip_queue for wrk in self.workers]) > self.max_wip:
+				self.max_wip = max([wrk.wip_queue for wrk in self.workers])
 
 			self.step_num += 1
 			self.supply_roll = self.supply_multiplier*secure_rng.choice([self.supply_rng_min, self.supply_rng_max])
