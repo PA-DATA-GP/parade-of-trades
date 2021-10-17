@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from flask import Flask, session, request, render_template, send_from_directory, redirect, url_for, abort, flash, send_file, jsonify
 from flask.helpers import make_response
 from custom_utils import random_id, secure_rng
+from sqlalchemy import and_
 from db_models.db import db
 from db_models.worker import Worker
 from db_models.game import Game
@@ -24,7 +25,7 @@ db.init_app(app)
 @app.before_first_request
 def before_first_request():
     db.create_all()
-    exp_games = Game.query.filter(Game.creation_time <= (datetime.now()-timedelta(hours=6))).all()
+    exp_games = Game.query.filter(and_(Game.tombstone == False, Game.creation_time <= (datetime.now()-timedelta(hours=6)))).all()
     for exp in exp_games:
         exp.tombstone = True
     db.session.commit()
