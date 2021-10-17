@@ -1,12 +1,16 @@
 "use-strict"
 function update(jsonData) {
-	console.log(jsonData)
+	// console.log(jsonData)
 	if (!jsonData.valid) {
 		window.location.href = "/index";
 	}
 	var prev_roll = true;
 	for (const [index, element] of jsonData.workers.entries()) {
-		var elem = document.getElementById('wrk-' + index + '-wip-queue')
+		var elem = document.getElementById('wrk-' + index + '-username')
+		if (element.username.length > 0) {
+			elem.innerHTML = element.username;
+		}
+		elem = document.getElementById('wrk-' + index + '-wip-queue')
 		elem.innerHTML = element.wip_queue;
 		elem = document.getElementById('wrk-' + index + '-roll')
 		elem.innerHTML = element.roll_num;
@@ -22,7 +26,7 @@ function update(jsonData) {
 			elem.innerHTML = "❌";
 			elem = document.getElementById('wrk-' + index + '-prod');
 			elem.innerHTML = '-';
-			console.log(index + "false");
+			// console.log(index + "false");
 			prev_roll = false;
 		}
 		elem = document.getElementById('wrk-' + index + '-min')

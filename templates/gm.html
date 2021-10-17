@@ -30,9 +30,9 @@
 				<td colspan="2">Supply</td>
 				{% for wrk in game.workers %}
 					{% if wrk.user|length > 0 %}
-						<td colspan="2">{{ wrk.user }}</td>
+						<td colspan="2" id='wrk-{{ loop.index0 }}-username'>{{ wrk.user }}</td>
 					{% else %}
-						<td colspan="2">Worker {{ loop.index0+1 }}</td>
+						<td colspan="2" id='wrk-{{ loop.index0 }}-username'>Worker {{ loop.index0+1 }}</td>
 					{% endif %}
 				{% endfor %}
 				<td colspan="2">Manufactured</td>
@@ -112,9 +112,9 @@
 				<td>
 					<button onclick="roll_all_force()" name="btn">Roll All (Forcibly)</button>
 				</td>
-				<td>
+				<!-- <td>
 					<button onclick="get_data()" name="btn">Get Game Data</button>
-				</td>
+				</td> -->
 			</tr>
 		</table>
 		<br>
