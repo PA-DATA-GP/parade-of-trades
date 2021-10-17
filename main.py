@@ -189,6 +189,7 @@ def roll_all_force(): # get probably not req.
     
     if request.method == 'POST':
         game.supply_roll = game.supply_multiplier*secure_rng.choice([game.supply_rng_min, game.supply_rng_max])
+        game.supply_production = min([game.supply, game.supply_roll])
         for wrk in Worker.get_workers(game.id):
             wrk.roll_num = wrk.multiplier*secure_rng.choice([wrk.rng_min, wrk.rng_max])
             wrk.rolled = True
