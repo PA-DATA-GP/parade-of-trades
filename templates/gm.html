@@ -29,8 +29,8 @@
 				<td>Label</td>
 				<td colspan="2">Supply</td>
 				{% for wrk in game.workers %}
-					{% if wrk.user|length > 0 %}
-						<td colspan="2" id='wrk-{{ loop.index0 }}-username'>{{ wrk.user }}</td>
+					{% if wrk.username|length > 0 %}
+						<td colspan="2" id='wrk-{{ loop.index0 }}-username'>{{ wrk.username }}</td>
 					{% else %}
 						<td colspan="2" id='wrk-{{ loop.index0 }}-username'>Worker {{ loop.index0+1 }}</td>
 					{% endif %}
