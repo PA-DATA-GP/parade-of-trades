@@ -33,7 +33,7 @@ def before_first_request():
 @app.route('/')
 @app.route('/index')
 def index_page():
-    return send_from_directory(app.static_folder, 'index.html')
+    return send_from_directory(app.static_folder, 'trades_index.html')
 
 @app.route('/css/<path:path>')
 def send_css(path):
