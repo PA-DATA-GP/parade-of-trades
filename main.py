@@ -35,6 +35,10 @@ def before_first_request():
 def index_page():
     return send_from_directory(app.static_folder, 'trades_index.html')
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(app.static_folder, 'favicon.ico')
+
 @app.route('/css/<path:path>')
 def send_css(path):
     return send_from_directory(app.static_folder, os.path.join('css', path))
